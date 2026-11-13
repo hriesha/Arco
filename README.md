@@ -19,3 +19,8 @@ This is a functional prototype, not a complete or teacher-validated curriculum. 
 
 ## Next steps
 Validate the curriculum and movement activities with an experienced teacher; conduct real-instrument transfer assessments; add notation and recall depth, spaced review, account-backed storage, and accessibility testing before wider release.
+
+## Deploy on Vercel
+Import `hriesha/Arco` into Vercel with the repository root as the project root. The checked-in `vercel.json` selects `dist/` as the static output; no build command, dependencies, or secrets are required. Keep the GitHub integration connected to deploy future changes to `main` automatically.
+
+A Vercel deployment can be available online before a wider launch. Review its deployment protection setting to control who can access it, and add a custom domain when ready. Browser-local learning progress does not migrate automatically between the old Site URL and a new Vercel URL.
