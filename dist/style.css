@@ -38,12 +38,12 @@ h3{margin:0;font-size:14px;font-weight:600}
 p{line-height:1.65}
 .sub{color:var(--muted);font-size:12px;margin:0}
 .datepill{font-size:10px;border:1px solid var(--line);padding:9px 13px;border-radius:20px;white-space:nowrap}
-.hero{min-height:286px;background:#392440;border-radius:12px;display:grid;grid-template-columns:1.12fr 1fr;position:relative;overflow:hidden;color:#fff5ed}
+.hero{min-height:286px;background:#392440;border-radius:20px;display:grid;grid-template-columns:1.12fr 1fr;position:relative;overflow:hidden;color:#fff5ed}
 .hero-copy{padding:32px 35px;z-index:1}
 .tag{font-size:8px;letter-spacing:1.4px;display:inline-block;padding:6px 9px;border:1px solid #8b6a92;border-radius:4px;color:#f5be98}
 .hero h2{font-size:39px;line-height:1.08;margin:17px 0 12px;max-width:310px}
 .hero p{color:#dac7df;font-size:11px;max-width:280px;margin:0 0 22px}
-.primary{border:0;border-radius:5px;background:var(--lime);color:#392440;padding:12px 17px;font-size:11px;font-weight:650}
+.primary{border:0;border-radius:8px;background:var(--lime);color:#392440;padding:12px 17px;font-size:11px;font-weight:650}
 .primary span{padding-left:25px}
 .hero small{font-size:9px;color:#d9bddb;margin-left:12px}
 .hero-art{position:relative;display:grid;place-items:center;background:radial-gradient(ellipse at center,#80546d 0,transparent 67%)}
@@ -55,7 +55,7 @@ p{line-height:1.65}
 .sectionline{display:flex;align-items:center;justify-content:space-between;margin-bottom:17px}
 .sectionline h2{font-size:25px}
 .link{background:none;border:0;font-size:10px;color:#795083;padding:4px}
-.card{background:#fff;border:1px solid var(--line);border-radius:9px}
+.card{background:#fff;border:1px solid var(--line);border-radius:14px}
 .path{padding:23px}
 .path-head{display:flex;gap:12px;align-items:center;border-bottom:1px solid #f0e8f1;padding-bottom:19px}
 .iconbox{width:40px;height:40px;background:#f0e6f0;border-radius:8px;display:grid;place-items:center;font-size:23px}
@@ -71,7 +71,7 @@ p{line-height:1.65}
 .lesson button{margin-left:auto;border:0;background:none;font-size:10px}
 .lesson.current button{background:#f0e2f1;border-radius:4px;padding:8px 11px}
 .lesson.pending{opacity:.6}
-.kit{padding:24px;background:#f3e5da}
+.kit{padding:24px;background:linear-gradient(135deg,#f5e8dc,#f1dace);border-color:#e7cdbb}
 .kit .eyebrow{font-size:8px}
 .kit h2{font-size:25px;line-height:1.1;margin-top:13px}
 .kit p{font-size:11px;color:#826c64}
@@ -83,7 +83,7 @@ p{line-height:1.65}
 .kit button{background:none;border:1px solid #d5bba9;padding:10px 13px;border-radius:4px;font-size:10px}
 .instrument-section{margin-top:29px}
 .instruments{display:grid;grid-template-columns:repeat(6,1fr);gap:11px}
-.instrument{border:1px solid var(--line);border-radius:7px;background:#fffdf9;padding:18px 8px 13px;text-align:center;position:relative}
+.instrument{border:1px solid var(--line);border-radius:12px;background:#fffdf9;padding:18px 8px 13px;text-align:center;position:relative}
 .instrument.selected{border-color:#a27aab;background:#f1e6f3}
 .instrument .emoji{display:block;font-size:29px;height:45px;filter:saturate(.65)}
 .instrument strong{display:block;font-size:10px;font-weight:500}
@@ -192,3 +192,19 @@ footer span{display:none}
 dialog{padding:29px 22px}
 }
 
+
+/* Tactile surfaces and quiet motion. */
+.card{box-shadow:0 4px 20px #4b305504}
+.hero{box-shadow:0 12px 30px #4c2b4d12}
+.hero-copy .tag{background:#ffffff08}
+.instrument{transition:transform .18s,border-color .18s,box-shadow .18s}
+.instrument:hover{transform:translateY(-3px);border-color:#ba98bc;box-shadow:0 6px 16px #633c6a0b}
+.primary{transition:background .18s,transform .18s}
+.primary:hover{background:#ffd0ad;transform:translateY(-1px)}
+button:disabled{cursor:default;opacity:.5;transform:none}
+nav button:hover:not(.active){background:#e9e0eb}
+.practice-card:nth-child(1){background:#f1e8f4}
+.practice-card:nth-child(2){background:#f9e8dc}
+.practice-card:nth-child(3){background:#eeeaf7}
+.practice-card:nth-child(4){background:#f6e5e8}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;scroll-behavior:auto!important}.instrument:hover,.primary:hover{transform:none}}
