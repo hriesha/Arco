@@ -24,3 +24,10 @@ Validate the curriculum and movement activities with an experienced teacher; con
 Import `hriesha/Arco` into Vercel with the repository root as the project root. The checked-in `vercel.json` selects `dist/` as the static output; no build command, dependencies, or secrets are required. Keep the GitHub integration connected to deploy future changes to `main` automatically.
 
 A Vercel deployment can be available online before a wider launch. Review its deployment protection setting to control who can access it, and add a custom domain when ready. Browser-local learning progress does not migrate automatically between the old Site URL and a new Vercel URL.
+
+## Guided beginnings and piano
+The home screen offers one guided start, a choice of violin or piano, and an interactive introduction to the teaching method. Returning learners see one next lesson. Piano has four introductory milestones: white-key exploration (touch or computer keyboard), key-location recall, self-reported paper-keyboard practice, and an unlabelled three-note memory check. Piano and violin records remain separate; existing `arco-v1` violin progress is preserved.
+
+The paper exercise develops orientation and sequencing only, not weighted-key technique. The proposed school pilot remains a vision, not an available award. No payments, resale listings, or guaranteed learning outcomes are implemented.
+
+The Vercel import created `hriesha/arcomusic`, linked to https://arcomusic.vercel.app. `hriesha/Arco` remains the original source repository. Keep the focused changes synchronized into the deployed repository until the hosting Git connection is consolidated.
