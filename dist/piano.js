@@ -1,0 +1,42 @@
+const pianoTitles=['Find your way around the keys','Know it without the labels','Take the pattern to paper','Your first independent sequence'];
+const pianoNotes=[['C',261.63,'a'],['D',293.66,'s'],['E',329.63,'d'],['F',349.23,'f'],['G',392,'g'],['A',440,'h'],['B',493.88,'j'],['C',523.25,'k']];
+function nextPianoLesson(){const i=pianoTitles.findIndex((_,i)=>!state.pianoDone.includes(i));return i<0?3:i;}
+function completePiano(id){if(!state.pianoDone.includes(id)){state.pianoDone.push(id);save();}render();toast('Piano milestone saved.');close();}
+function pianoKeyboard(labels=true){return `<div class="piano-keyboard" role="group" aria-label="Piano keys, C4 through C5">${pianoNotes.map(([note,freq,key],i)=>`<button class="piano-key" data-key="${i}" aria-label="${labels?note+(i===7?'5':'4'):'White key '+(i+1)}">${[0,1,3,4,5].includes(i)?'<span class="black-key" aria-hidden="true"></span>':''}<span class="key-label">${labels?note:'·'}</span><kbd>${key.toUpperCase()}</kbd></button>`).join('')}</div>`;}
+function wirePiano(onNote){
+  const buttons=[...document.querySelectorAll('[data-key]')];
+  function play(i){const b=buttons[i];if(!b||b.disabled)return;tone(pianoNotes[i][1],.5);b.classList.add('pressed');setTimeout(()=>b.classList.remove('pressed'),160);onNote(i);}
+  buttons.forEach((b,i)=>b.onclick=()=>play(i));
+  const keydown=e=>{if(e.repeat||e.ctrlKey||e.metaKey||e.altKey||e.target.matches('input,select,textarea'))return;const i=pianoNotes.findIndex(n=>n[2]===e.key.toLowerCase());if(i>=0){e.preventDefault();play(i);}};
+  document.addEventListener('keydown',keydown);
+  cleanup=()=>document.removeEventListener('keydown',keydown);
+}
+function renderPianoPath(){
+  $('#crumb').innerHTML='Your learning / <b>Piano foundations</b>';
+  main.innerHTML=`<div class="eyebrow">YOUR SECOND POSSIBILITY · PIANO</div><h1>A beginning in black and white.</h1><p class="sub">Learn your way around the keys before you invest in a keyboard.</p><div class="card full-path">${pianoTitles.map((t,i)=>`<div class="lesson ${state.pianoDone.includes(i)?'done':'current'}"><span class="lesson-num">${state.pianoDone.includes(i)?'✓':i+1}</span><div><strong>${t}</strong><small>${['Explore · 3 min','Recall · 3 min','At-home practice · 4 min','Independent check · 3 min'][i]}</small></div><button data-piano-lesson="${i}">${state.pianoDone.includes(i)?'Review ↗':'Begin →'}</button></div>`).join('')}</div><div class="modal-actions"><button class="secondary" id="pianoFreePlay">Open the sound lab ↗</button><button class="link" id="switchInstrument">Explore another instrument ↗</button></div><p class="fine">This introductory pathway covers key locations, pitch relationships, and a short recall task. A screen or paper keyboard does not reproduce key weight, tone control, or full piano technique. Curriculum validation with a teacher is still ahead.</p>`;
+  document.querySelectorAll('[data-piano-lesson]').forEach(b=>b.onclick=()=>pianoLesson(+b.dataset.pianoLesson));
+  $('#pianoFreePlay').onclick=()=>pianoLesson(-1);$('#switchInstrument').onclick=chooseInstrument;
+}
+function pianoLesson(id){
+  if(id===3 && [0,1,2].some(i=>!state.pianoDone.includes(i))){open('<h2>Build the pieces first.</h2><p class="modal-sub">Complete the first three piano milestones before your independent sequence check.</p><button class="primary" id="pianoPath">Open piano foundations →</button>');$('#pianoPath').onclick=()=>{close();go('piano');};return;}
+  if(id===2){
+    open(`<div class="eyebrow">PIANO · AWAY FROM THE SCREEN</div><h2>A piece of paper. A place to practice.</h2><p class="modal-sub">Draw eight white keys on paper. Add black-key groups of two and three, using the guide below. C is just left of each group of two. Label the white keys C, D, E, F, G, A, B, C.</p>${pianoKeyboard(true)}<p class="modal-sub">Set the paper on a table. With a relaxed right hand, gently touch C with your thumb, D with your index finger, and E with your middle finger. Repeat slowly. Then cover the labels and find C again.</p><label class="checkline"><input type="checkbox" id="paperTried"> I tried the pattern and found C with the labels covered.</label><button class="primary" id="paperDone" disabled>Record self-reported practice →</button><p class="fine">No paper? Rehearse three gentle fingertip taps on a table. This practices sequence and orientation, not piano touch or weighted-key technique. Stop if uncomfortable.</p>`);
+    document.querySelectorAll('[data-key]').forEach(b=>b.disabled=true);
+    $('#paperTried').onchange=e=>$('#paperDone').disabled=!e.target.checked;
+    $('#paperDone').onclick=()=>completePiano(2);return;
+  }
+  if(id===1){
+    const candidates=[0,1,2,3,4,5,6],target=candidates[Math.floor(Math.random()*candidates.length)];
+    open(`<div class="eyebrow">PIANO · RECALL</div><h2>Can you find ${pianoNotes[target][0]}?</h2><p class="modal-sub">The labels are hidden. Use the groups of two and three black keys to orient yourself. The first white key is C. Play ${pianoNotes[target][0]}.</p>${pianoKeyboard(false)}<div class="feedback" role="status" id="pianoFeedback">Tap a key, or use A–K on your computer keyboard.</div><div id="pianoActions"></div>`);
+    wirePiano(i=>{if(i===target||(target===0&&i===7)){$('#pianoFeedback').textContent=`That’s ${pianoNotes[i][0]}. You found it without a highlighted answer.`;$('#pianoActions').innerHTML='<button class="primary" id="savePiano">Save milestone →</button>';$('#savePiano').onclick=()=>completePiano(1);}else{$('#pianoFeedback').textContent=`You played ${pianoNotes[i][0]}. Look at the black-key groups and try again.`;}});return;
+  }
+  if(id===3){
+    const sequence=Math.random()>.5?[0,2,1]:[2,0,1];
+    open(`<div class="eyebrow">PIANO · INDEPENDENT CHECK</div><h2>Read it. Remember it. Play it.</h2><p class="modal-sub">Read this three-note sequence. When you’re ready, hide it and play it from memory on the unlabelled keys. There is no time limit.</p><div id="sequencePrompt" class="sequence-prompt">${sequence.map(i=>pianoNotes[i][0]).join(' → ')}</div><button class="secondary" id="hideSequence">Hide sequence & begin</button>${pianoKeyboard(false)}<div class="feedback" id="pianoFeedback" role="status">Read the sequence first.</div><div id="pianoActions"></div>`);
+    document.querySelectorAll('[data-key]').forEach(b=>b.disabled=true);let index=0,active=false;
+    $('#hideSequence').onclick=()=>{index=0;active=true;$('#sequencePrompt').textContent='● → ● → ●';$('#hideSequence').disabled=true;document.querySelectorAll('[data-key]').forEach(b=>b.disabled=false);$('#pianoFeedback').textContent='Your turn. Play the three notes in order.';};
+    wirePiano(i=>{if(!active)return;if(i!==sequence[index]){active=false;$('#sequencePrompt').textContent=sequence.map(n=>pianoNotes[n][0]).join(' → ');$('#hideSequence').disabled=false;$('#hideSequence').textContent='Hide & try again';$('#pianoFeedback').textContent='That sequence was different. Study it again, then hide it for another try.';return;}index++;$('#pianoFeedback').textContent=`${index} of 3 notes recalled.`;if(index===3){active=false;$('#pianoActions').innerHTML='<button class="primary" id="savePiano">Complete foundation check →</button>';$('#savePiano').onclick=()=>completePiano(3);}});return;
+  }
+  open(`<div class="eyebrow">PIANO · ${id===-1?'SOUND LAB':'MEET THE KEYS'}</div><h2>Find a pattern. Hear a possibility.</h2><p class="modal-sub">Black keys repeat in groups of two and three. C is immediately to the left of a group of two. Moving to the right makes the pitch higher.</p>${pianoKeyboard(true)}<div class="feedback" id="pianoFeedback" role="status">Play C, D, and E in any order. Use touch, click, or keyboard A–K.</div><div id="pianoActions"></div><p class="fine">Synthesized reference tones, not piano recordings. The black shapes are orientation guides; this first exercise plays the white keys.</p>`);
+  const heard=new Set();wirePiano(i=>{heard.add(i);$('#pianoFeedback').textContent=`You played ${pianoNotes[i][0]}${i===7?'5':'4'}. ${[0,1,2].every(n=>heard.has(n))?'You’ve explored C, D, and E.':'Find and play C, D, and E.'}`;if(id===0&&[0,1,2].every(n=>heard.has(n))){$('#pianoActions').innerHTML='<button class="primary" id="savePiano">Save my first piano milestone →</button>';$('#savePiano').onclick=()=>completePiano(0);}});
+}
