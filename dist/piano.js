@@ -18,6 +18,7 @@ function renderPianoPath(){
   $('#pianoFreePlay').onclick=()=>pianoLesson(-1);$('#switchInstrument').onclick=chooseInstrument;
 }
 function pianoLesson(id){
+  if(id===0){pianoIntroduction();return;}
   if(id===3 && [0,1,2].some(i=>!state.pianoDone.includes(i))){open('<h2>Build the pieces first.</h2><p class="modal-sub">Complete the first three piano milestones before your independent sequence check.</p><button class="primary" id="pianoPath">Open piano foundations →</button>');$('#pianoPath').onclick=()=>{close();go('piano');};return;}
   if(id===2){
     open(`<div class="eyebrow">PIANO · AWAY FROM THE SCREEN</div><h2>A piece of paper. A place to practice.</h2><p class="modal-sub">Draw eight white keys on paper. Add black-key groups of two and three, using the guide below. C is just left of each group of two. Label the white keys C, D, E, F, G, A, B, C.</p>${pianoKeyboard(true)}<p class="modal-sub">Set the paper on a table. With a relaxed right hand, gently touch C with your thumb, D with your index finger, and E with your middle finger. Repeat slowly. Then cover the labels and find C again.</p><label class="checkline"><input type="checkbox" id="paperTried"> I tried the pattern and found C with the labels covered.</label><button class="primary" id="paperDone" disabled>Record self-reported practice →</button><p class="fine">No paper? Rehearse three gentle fingertip taps on a table. This practices sequence and orientation, not piano touch or weighted-key technique. Stop if uncomfortable.</p>`);

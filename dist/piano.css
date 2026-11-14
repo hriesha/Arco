@@ -5,3 +5,12 @@
 .piano-key.selected-key .key-label{font-weight:700}
 .piano-key.selected-key::after{content:'';position:absolute;bottom:42px;width:7px;height:7px;border-radius:50%;background:#80518f}
 .piano-key:focus-visible{z-index:2;outline-offset:2px}
+.piano-goal{background:#f2e7f4;border:1px solid #e3cfe8;border-radius:10px;padding:17px 18px;margin:20px 0 28px}
+.piano-goal>span{font-size:8px;letter-spacing:1.5px;color:#936a9a}
+.piano-goal h3{font-size:14px;margin-top:9px;line-height:1.5}
+.piano-goal p{font-size:12px;color:#7a627f;margin:8px 0 0;line-height:1.8}
+.piano-key.target-key{outline:2px solid #a66e44;outline-offset:-4px}
+.piano-key.target-key::before{content:attr(data-hint);position:absolute;top:-27px;background:#f5be98;color:#573b30;border-radius:4px;padding:4px 6px;font-size:9px;z-index:3}
+.piano-question{border-top:1px solid #e7dfe6;margin-top:15px;padding-top:20px}
+.piano-question h3{line-height:1.6}
+.piano-question .choices button{font-size:13px;padding:13px}
