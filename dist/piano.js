@@ -1,4 +1,5 @@
 const pianoTitles=['Find your way around the keys','Know it without the labels','Take the pattern to paper','Your first independent sequence'];
+const pianoLandmarks=['C is just left of a group of two black keys.','D sits between the two black keys.','E is just right of a group of two black keys.','F is just left of a group of three black keys.','G sits between the first and second black keys in a group of three.','A sits between the second and third black keys in a group of three.','B is just right of a group of three black keys.'];
 const pianoNotes=[['C',261.63,'a'],['D',293.66,'s'],['E',329.63,'d'],['F',349.23,'f'],['G',392,'g'],['A',440,'h'],['B',493.88,'j'],['C',523.25,'k']];
 function nextPianoLesson(){const i=pianoTitles.findIndex((_,i)=>!state.pianoDone.includes(i));return i<0?3:i;}
 function completePiano(id){if(!state.pianoDone.includes(id)){state.pianoDone.push(id);save();}render();toast('Piano milestone saved.');close();}
@@ -28,8 +29,9 @@ function pianoLesson(id){
   }
   if(id===1){
     const candidates=[0,1,2,3,4,5,6],target=candidates[Math.floor(Math.random()*candidates.length)];
-    open(`<div class="eyebrow">PIANO · RECALL</div><h2>Can you find ${pianoNotes[target][0]}?</h2><p class="modal-sub">The labels are hidden. Use the groups of two and three black keys to orient yourself. The first white key is C. Play ${pianoNotes[target][0]}.</p>${pianoKeyboard(false)}<div class="feedback" role="status" id="pianoFeedback">Tap a key, or use A–K on your computer keyboard.</div><div id="pianoActions"></div>`);
-    wirePiano(i=>{if(i===target||(target===0&&i===7)){$('#pianoFeedback').textContent=`That’s ${pianoNotes[i][0]}. You found it without a highlighted answer.`;$('#pianoActions').innerHTML='<button class="primary" id="savePiano">Save milestone →</button>';$('#savePiano').onclick=()=>completePiano(1);}else{$('#pianoFeedback').textContent=`You played ${pianoNotes[i][0]}. Look at the black-key groups and try again.`;}});return;
+    open(`<div class="eyebrow">PIANO · RECALL</div><h2>Can you find ${pianoNotes[target][0]}?</h2><p class="modal-sub">The labels are hidden. Use the groups of two and three black keys to orient yourself. The first white key is C. Play ${pianoNotes[target][0]}.</p>${pianoKeyboard(false)}<div class="feedback" role="status" id="pianoFeedback">Tap a key, or use A–K on your computer keyboard.</div><button class="link" id="pianoClue">Need a landmark clue?</button><p class="fine" id="pianoClueText" role="status"></p><div id="pianoActions"></div>`);
+    $('#pianoClue').onclick=()=>{$('#pianoClueText').textContent=pianoLandmarks[target];};
+    wirePiano(i=>{if(i===target||(target===0&&i===7)){$('#pianoFeedback').textContent=`That’s ${pianoNotes[i][0]}. ${pianoLandmarks[target]}`;$('#pianoActions').innerHTML='<button class="primary" id="savePiano">Save milestone →</button>';$('#savePiano').onclick=()=>completePiano(1);}else{$('#pianoFeedback').textContent=`You played ${pianoNotes[i][0]}. The purple key shows your selection. Use the black-key groups to find ${pianoNotes[target][0]}, or ask for a landmark clue.`;}});return;
   }
   if(id===3){
     const sequence=Math.random()>.5?[0,2,1]:[2,0,1];
