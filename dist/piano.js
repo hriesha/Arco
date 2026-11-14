@@ -2,10 +2,10 @@ const pianoTitles=['Find your way around the keys','Know it without the labels',
 const pianoNotes=[['C',261.63,'a'],['D',293.66,'s'],['E',329.63,'d'],['F',349.23,'f'],['G',392,'g'],['A',440,'h'],['B',493.88,'j'],['C',523.25,'k']];
 function nextPianoLesson(){const i=pianoTitles.findIndex((_,i)=>!state.pianoDone.includes(i));return i<0?3:i;}
 function completePiano(id){if(!state.pianoDone.includes(id)){state.pianoDone.push(id);save();}render();toast('Piano milestone saved.');close();}
-function pianoKeyboard(labels=true){return `<div class="piano-keyboard" role="group" aria-label="Piano keys, C4 through C5">${pianoNotes.map(([note,freq,key],i)=>`<button class="piano-key" data-key="${i}" aria-label="${labels?note+(i===7?'5':'4'):'White key '+(i+1)}">${[0,1,3,4,5].includes(i)?'<span class="black-key" aria-hidden="true"></span>':''}<span class="key-label">${labels?note:'·'}</span><kbd>${key.toUpperCase()}</kbd></button>`).join('')}</div>`;}
+function pianoKeyboard(labels=true){return `<div class="piano-keyboard" role="group" aria-label="Piano keys, C4 through C5">${pianoNotes.map(([note,freq,key],i)=>`<button class="piano-key" aria-pressed="false" data-key="${i}" aria-label="${labels?note+(i===7?'5':'4'):'White key '+(i+1)}">${[0,1,3,4,5].includes(i)?'<span class="black-key" aria-hidden="true"></span>':''}<span class="key-label">${labels?note:'·'}</span><kbd>${key.toUpperCase()}</kbd></button>`).join('')}</div>`;}
 function wirePiano(onNote){
   const buttons=[...document.querySelectorAll('[data-key]')];
-  function play(i){const b=buttons[i];if(!b||b.disabled)return;tone(pianoNotes[i][1],.5);b.classList.add('pressed');setTimeout(()=>b.classList.remove('pressed'),160);onNote(i);}
+  function play(i){const b=buttons[i];if(!b||b.disabled)return;tone(pianoNotes[i][1],.5);buttons.forEach(key=>{key.classList.remove('selected-key');key.setAttribute('aria-pressed','false');});b.classList.add('selected-key');b.setAttribute('aria-pressed','true');b.classList.add('pressed');setTimeout(()=>b.classList.remove('pressed'),160);onNote(i);}
   buttons.forEach((b,i)=>b.onclick=()=>play(i));
   const keydown=e=>{if(e.repeat||e.ctrlKey||e.metaKey||e.altKey||e.target.matches('input,select,textarea'))return;const i=pianoNotes.findIndex(n=>n[2]===e.key.toLowerCase());if(i>=0){e.preventDefault();play(i);}};
   document.addEventListener('keydown',keydown);
