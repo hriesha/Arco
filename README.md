@@ -1,7 +1,7 @@
 # Arco
 
 A browser-based instrument-learning prototype focused on foundations before songs.
-Check V1 here: https://arcomusic.vercel.app
+Check **version 1** here: https://arcomusic.vercel.app
 
 ## Working features
 - Six introductory violin milestones with knowledge and listening checks
