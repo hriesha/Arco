@@ -1,34 +1,42 @@
 # Arco
 
-A browser-based instrument-learning prototype focused on foundations before songs.
-Check **version 1** here: https://arcomusic.vercel.app
+**One beginning. Many possibilities.**
 
-## Working features
-- Six introductory violin milestones with knowledge and listening checks
-- Synthesized G3, D4, A4, E5 open-string reference tones using Web Audio
-- Randomized two-pitch comparison
-- Four-tap rhythm check with measured timing intervals and stored scores
-- Gentle tabletop finger-sequencing practice, explicitly recorded as self-reported
-- Local progress, daily goal, JSON export, and confirmed reset
-- Responsive dashboard, practice studio, curriculum, progress, and proposed school pilot
+Learn instrument foundations through guided lessons, interactive practice, and everyday objects—before buying an instrument.
 
-## Run
-Serve `dist/` with any static web server. No dependencies or API keys are required. Google Fonts is optional; system fallbacks apply.
+[Try Arco · Version 1](https://arcomusic.vercel.app)
 
-## Scope
-This is a functional prototype, not a complete or teacher-validated curriculum. It does not evaluate physical violin technique or guarantee real-instrument transfer. Five additional instruments are explicitly planned, not implemented. School partnerships and free course places are not yet available. Progress stays in the browser's localStorage and is not synced to an account. Web Audio tones are synthesized, not violin samples. Rhythm feedback measures interval consistency at 60 BPM, not latency-calibrated performance.
+## Why Arco
 
-## Next steps
-Validate the curriculum and movement activities with an experienced teacher; conduct real-instrument transfer assessments; add notation and recall depth, spaced review, account-backed storage, and accessibility testing before wider release.
+Cost, space, and a busy schedule can make learning an instrument feel out of reach. Arco gives you a place to begin with your ears, your hands, and things you already have.
 
-## Deploy on Vercel
-Import `hriesha/Arco` into Vercel with the repository root as the project root. The checked-in `vercel.json` selects `dist/` as the static output; no build command, dependencies, or secrets are required. Keep the GitHub integration connected to deploy future changes to `main` automatically.
+The approach is simple: understand a musical idea, try it through a practical exercise, then check what you remember. Songs can follow as the foundations develop.
 
-A Vercel deployment can be available online before a wider launch. Review its deployment protection setting to control who can access it, and add a custom domain when ready. Browser-local learning progress does not migrate automatically between the old Site URL and a new Vercel URL.
+## What you can explore
 
-## Guided beginnings and piano
-The home screen offers one guided start, a choice of violin or piano, and an interactive introduction to the teaching method. Returning learners see one next lesson. Piano has four introductory milestones: white-key exploration (touch or computer keyboard), key-location recall, self-reported paper-keyboard practice, and an unlabelled three-note memory check. Piano and violin records remain separate; existing `arco-v1` violin progress is preserved.
+- **Violin foundations:** six introductory milestones covering instrument knowledge, rhythm, listening, notation basics, and gentle movement practice.
+- **Piano foundations:** four introductory milestones with guided key exploration, persistent key highlighting, note-location recall, paper-keyboard practice, and a short memory check.
+- **Practice studio:** synthesized reference tones, pitch comparisons, rhythm exercises with timing feedback, and activities away from the screen.
+- **Your learning record:** separate violin and piano progress, a daily practice goal, and progress export and reset.
 
-The paper exercise develops orientation and sequencing only, not weighted-key technique. The proposed school pilot remains a vision, not an available award. No payments, resale listings, or guaranteed learning outcomes are implemented.
+Choose violin or piano to begin. Guided exercises explain each step; recall checks help you see what stayed.
 
-The Vercel import created `hriesha/arcomusic`, linked to https://arcomusic.vercel.app. `hriesha/Arco` remains the original source repository. Keep the focused changes synchronized into the deployed repository until the hosting Git connection is consolidated.
+## Where things stand
+
+Arco is an early working prototype. The curriculum still needs validation with experienced music teachers. Screen and household-object activities can introduce musical ideas and rehearse sequences, but they do not reproduce an instrument’s physical feel or verify playing technique.
+
+Progress is saved in your current browser and does not sync across devices. Sounds are synthesized reference tones, not instrument recordings.
+
+## What’s ahead
+
+Deeper lessons, spaced review, more instruments, and opportunities to test learning on real instruments. A proposed music-school pilot would help learners take that next step; partnerships and free introductory places are not confirmed yet.
+
+## Run locally
+
+No build step, dependencies, or API keys are required. With Python installed, run:
+
+```sh
+python3 -m http.server 3210 --directory dist
+```
+
+Then open [localhost:3210](http://localhost:3210). Arco is built with HTML, CSS, JavaScript, and the Web Audio API, and is hosted on Vercel.
